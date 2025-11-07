@@ -1,0 +1,13 @@
+---
+title: 'Stat107 Final Project Data Analysis'
+author: "Group 15"
+date: "11-5-25"
+output:
+  pdf_document: default
+  html_document:
+    css: ../lab.css
+    highlight: pygments
+    theme: cerulean
+---
+
+TO BE IMPLEMENTED ONCE WE LEARN ABOUT LINEAR REGRESSION AND OTHER METHODS

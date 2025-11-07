@@ -1,0 +1,23 @@
+---
+title: 'The Effects of Good Sleep on Cognitive Performance'
+author: "Group 15"
+date: "11-5-25"
+output:
+  pdf_document: default
+  html_document:
+    css: ../lab.css
+    highlight: pygments
+    theme: cerulean
+---
+
+In this project we seek to analyze the effects of good sleep on a subject's cognitive performance. Do the surrounding attributes of a person's sleep, such as hours slept and caffeine intake, have a direct effect on a persons ability to perform throughout the day? And do certain attributes affect their performance more than others? These questions are of considerable importance to us as eroded college students.
+
+In order to answer our questions, we intend to select certain features based on highest coorelation score, intuitive choice, and possibly other methods, and train a regression model to predict the performance of a subject based on the attributes of their sleep. Furthermore, we will attempt to identify coorelations between sleep and awake performance through visualizations. As our data is observational, we cannot perform an experiment, thus we hope to identify strong coorelations in our data.
+
+The data set in use is "sleep_deprivation_dataset_detailed.csv" pulled from Kaggle. There are 60 entries with 14 observational variables describing a subject's sleep (hours, quality, ...) and time awake (performance, drowsiness, ...). The data set was cleaned using simple methods of transforming characters to factors and removing NA values, though, as the data set is from Kaggle, it was relatively clean already. 
+
+##########
+
+MOVE ANALYSIS HERE WHEN READY
+
+##########

@@ -68,18 +68,3 @@ save(sleep_df, file = "sleep_df.RData")
 ```
 
 
-Here we are able to quickly visualize what numeric variables relate to each other and the strength of these relationships. As the correlation plot shows the variables with positively correlated relationships are those in blue, the darker the blue color of the circles the stronger that positive relationship is. And for the red colored circles is a negative correlated for example in our data set it is apparent that the less sleep you get the less the N_Back_Accuracy score is(memory capabilities/attention). 
-```{r}
-
-#Visualize correlation between the numeric variables in our data set
-
-install.packages("corrplot") 
-library(corrplot)
-numeric_var <- c( "Sleep_Hours", "Stroop_Task_Reaction_Time", "N_Back_Accuracy", "PVT_Reaction_Time" , "BMI", "Sleep_Quality_Score", "Stress_Level" )
-cor_mat <- cor(sleep_df[, numeric_var])
-corrplot(cor_mat)
-
-
-
-
-```
