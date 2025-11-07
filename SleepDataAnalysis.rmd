@@ -1,0 +1,45 @@
+
+
+
+```{r}
+# 1. Sleep Hours vs Stroop Task Reaction Time
+plot(sleep_df$Sleep_Hours, sleep_df$Stroop_Task_Reaction_Time,
+     main = "Sleep Hours vs Stroop Reaction Time",
+     xlab = "Sleep Hours",
+     ylab = "Stroop Reaction Time (sec)",
+     col = "blue", pch = 19)
+
+
+
+```
+```{r}
+# 2. Sleep Hours vs N-Back Accuracy
+plot(sleep_df$Sleep_Hours, sleep_df$N_Back_Accuracy,
+     main = "Sleep Hours vs N-Back Accuracy",
+     xlab = "Sleep Hours",
+     ylab = "N-Back Accuracy (%)",
+     col = "darkgreen", pch = 19)
+
+```
+```{r}
+# 3. Sleep Quality Score vs Daytime Sleepiness
+plot(sleep_df$Sleep_Quality_Score, sleep_df$Daytime_Sleepiness,
+     main = "Sleep Quality vs Daytime Sleepiness",
+     xlab = "Sleep Quality Score",
+     ylab = "Daytime Sleepiness Score",
+     col = "purple", pch = 19)
+
+```
+```{r}
+# 4. Sleep Hours vs Stress Level
+plot(sleep_df$Sleep_Hours, sleep_df$Stress_Level,
+     main = "Sleep Hours vs Stress Level",
+     xlab = "Sleep Hours",
+     ylab = "Stress Level",
+     col = "red", pch = 19)
+```
+
+
+
+
+
