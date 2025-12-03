@@ -9,5 +9,131 @@ output:
     highlight: pygments
     theme: cerulean
 ---
+This code allows us to compare multiple proposed linear models that predict our response variable Cognitive Score from sleep Duration. Each individual plot shows the data points, the proposed line, and fitted lines representing the residuals. The least squares regression line is represented by the green fitted line. This visualization minimizes the sum of squared errors and provides the best fit line to our dataset. 
+```{r}
 
-TO BE IMPLEMENTED ONCE WE LEARN ABOUT LINEAR REGRESSION AND OTHER METHODS
+
+set.seed(123)
+sample_df <- sleep_df[sample(nrow(sleep_df), 200), ]
+
+### Function to visualize linear models with residuals
+plot_lm <- function(x, y, a, b, ...) {
+  y_hat <- a + b*x  # predicted values
+  
+  plot(x, y,
+       pch = 19,
+       col = "blue",
+       main = "Linear Model Visualization",
+       xlab = "Sleep Duration (hours)",
+       ylab = "Cognitive Score")
+  
+  abline(a = a, b = b, ...)  # proposed line
+  
+  # Draw vertical lines showing residuals
+  segments(
+    x0 = x, y0 = y,
+    x1 = x, y1 = y_hat,
+    col = "orange"
+  )
+}
+
+### Function to calculate sum of squared errors
+error_lm <- function(x, y, a, b) {
+  errors <- y - (a + b*x)
+  sum(errors^2)
+}
+
+# Set plotting area for 2x2 comparison
+par(mfrow = c(2,2), oma = c(0,0,3,0))
+
+# Example proposed models
+proposed_models <- list(
+  list(a = 50, b = 5),
+  list(a = 80, b = 1),
+  list(a = 100, b = 0.5)
+)
+
+# Loop through proposed models
+for (mod in proposed_models) {
+  a <- mod$a
+  b <- mod$b
+  err <- error_lm(sample_df$Sleep_Duration, sample_df$Cognitive_Score, a, b)
+  plot_lm(
+    sample_df$Sleep_Duration,
+    sample_df$Cognitive_Score,
+    a = a,
+    b = b,
+    col = "red", lwd = 2,
+    main = paste("a =", a, "b =", b, "\nSSE =", round(err,1))
+  )
+}
+
+# Least squares model
+ls_mod <- lm(Cognitive_Score ~ Sleep_Duration, data = sample_df)
+a <- coef(ls_mod)[1]
+b <- coef(ls_mod)[2]
+err <- error_lm(sample_df$Sleep_Duration, sample_df$Cognitive_Score, a, b)
+plot_lm(
+  sample_df$Sleep_Duration,
+  sample_df$Cognitive_Score,
+  a = a,
+  b = b,
+  col = "green", lwd = 2,
+  main = paste("LS Model: a =", round(a,2), "b =", round(b,2), "\nSSE =", round(err,1))
+)
+
+# Add overall title
+mtext("Comparison of Proposed Models vs Least Squares Model",
+      side = 3, outer = TRUE, line = 1.5, cex = 1.2)
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+```{r}
+
+ls_mod <- lm(Cognitive_Score ~ Sleep_Duration, data = sample_df)
+
+summary(ls_mod)
+
+```
+After running the code above we are able to get a summary of the information on how the variable sleep duration functions as a variable to explain or affect our variable of interest Cognitive Score. The residuals of this model shows how the data of this variable are fairly centered around zero meaning that no systematic over or under between observed and predicted Cognitive Scores. 
+  
+     Cognitive_Score = 37.13 + 3.03x Sleep Duration
+  
+  From this summary we also gain insight into a linear equation with the y intercept being equal to 37.13 which is equal to the predicted Cognitive Score when sleep duration is equal to zero sleep time. The slope is 3.0289 which we can interpret as for every additional hour of sleep this increases predicted Cognitive Score by an estimated 3 points. 
+
+  Now for the significance of this predictor we observe a value of 0.000413 which is less than 0.05. From this we are able to conclude that this sleep duration variable in our data set is a statistically significant predictor of the cognitive score. Although this is a statistically significant predictor the variance explained by this variable alone can be determined by the squared value, which here we end up with a value of 0.0612. 
+  
+  From this we can denote that the variable sleep duration only explains about 6% of the variability in cognitive score. All in all this variable sleep duration contains a significant positive contribution on cognitive score however in our complete model including all other significant variables is not sufficient to fully predict cognitive score alone.
+
+
+```{r}
+
+full_mod <- lm(Cognitive_Score ~ Sleep_Duration + Stress_Level + Daily_Screen_Time + 
+                 Caffeine_Intake + Reaction_Time + Exercise_Frequency, data = sleep_df)
+
+summary(full_mod)
+
+```
+
+After fitting the full model with all six predictors, the summary gives us a picture of how these variables together help explain differences in Cognitive Score. Looking at the residuals first, they’re centered very close to zero with a fairly symmetric spread, which suggests that once all predictors are included, the model is not systematically over- or under-estimating cognitive scores across the data set.
+  
+  Using all the variables together, the model estimates a starting point (intercept) of about 142.7 for the predicted Cognitive Score when all predictors are at their baseline values. From there, each predictor shifts the cognitive score in ways that make sense directionaly. Sleep Duration has a positive coefficient of about 1.92, meaning that each additional hour of sleep is associated with nearly 2 more points on the cognitive score, holding everything else constant. Stress Level goes the opposite way, decreasing cognitive score by about 1.93 points for each unit increase in stress.
+    
+    Other daily habits also contribute. More time spent on screens predicts lower scores, dropping by about 1.45 points for each hour. Caffeine Intake also has a very small but negative association, where increasing caffeine slightly lowers predicted performance. Reaction Time has a larger negative impact: slower reaction times correspond to noticeably lower cognitive scores, which makes sense because reaction time is itself tied to attention and cognitive processing.
+  
+  The exercise frequency categories also show meaningful differences. Compared to the reference group (likely “High” exercise), people who exercise “Low” score about 14 points lower, and those in the “Medium” group score about 5 points lower. This suggests that physical activity plays a noticeable role in cognitive outcomes for this dataset.
+  
+  What stands out most is that every single predictor is statistically significant, with extremely small p-values. That means each variable contributes in a way that is unlikely to be due to just chance. Together, these predictors explain a very large portion of the variation in cognitive scores: the R-squared is about 0.863, meaning roughly 86% of the differences in cognitive performance can be accounted for by the combination of sleep, stress, screen time, caffeine, reaction speed, and exercise frequency. This is a big improvement over the simple model, where sleep alone explained only about 6%.
+  
+  Overall, the full model paints a much more complete picture. Sleep still matters, but stress, screen use, exercise, and especially reaction time add important information that dramatically increases the accuracy of predicting cognitive scores.

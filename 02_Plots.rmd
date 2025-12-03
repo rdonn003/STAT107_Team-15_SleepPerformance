@@ -1,53 +1,61 @@
 ```{r}
-# 1. Sleep Hours vs Stroop Task Reaction Time
-plot(sleep_df$Sleep_Hours, sleep_df$Stroop_Task_Reaction_Time,
-     main = "Sleep Hours vs Stroop Reaction Time",
-     xlab = "Sleep Hours",
-     ylab = "Stroop Reaction Time (sec)",
-     col = "blue", pch = 19)
+# 1. only using a random sample as 80,000 observations clutter the plot
+set.seed(123)
+sample_df <- sleep_df[sample(nrow(sleep_df), 800), ]
+
+#Sleep Duration vs Cognitive Score
+plot(
+  sample_df$Sleep_Duration,
+  sample_df$Cognitive_Score,
+  main = "Sleep Duration vs Cognitive Score (sampled)",
+  xlab = "Sleep Duration (hours)",
+  ylab = "Cognitive Score",
+  pch = 19,
+  col = "blue"
+)
+abline(lm(Cognitive_Score ~ Sleep_Duration, data = sample_df), col = "red", lwd = 2)
 
 
 
 ```
 ```{r}
-# 2. Sleep Hours vs N-Back Accuracy
-plot(sleep_df$Sleep_Hours, sleep_df$N_Back_Accuracy,
-     main = "Sleep Hours vs N-Back Accuracy",
-     xlab = "Sleep Hours",
-     ylab = "N-Back Accuracy (%)",
-     col = "darkgreen", pch = 19)
-
+# 2. Cognitive Score vs Sleep Quality
+sleep_df$Screen_Bin <- ifelse(sleep_df$Daily_Screen_Time <= 2, "0-2",
+                        ifelse(sleep_df$Daily_Screen_Time <= 4, "2-4",
+                          ifelse(sleep_df$Daily_Screen_Time <= 6, "4-6",
+                            ifelse(sleep_df$Daily_Screen_Time <= 8, "6-8", "8-10"))))
+boxplot(Cognitive_Score ~ Screen_Bin, data = sleep_df,
+        main = "Cognitive Score by Daily Screen Time",
+        xlab = "Daily Screen Time (hours)",
+        ylab = "Cognitive Score",
+        col = "green")
 ```
 ```{r}
-# 3. Sleep Quality Score vs Daytime Sleepiness
-plot(sleep_df$Sleep_Quality_Score, sleep_df$Daytime_Sleepiness,
-     main = "Sleep Quality vs Daytime Sleepiness",
-     xlab = "Sleep Quality Score",
-     ylab = "Daytime Sleepiness Score",
-     col = "purple", pch = 19)
+# 3. 
+Sleep_Bin <- ifelse(sleep_df$Sleep_Duration <= 4, "0-4",
+              ifelse(sleep_df$Sleep_Duration <= 6, "4-6",
+                ifelse(sleep_df$Sleep_Duration <= 8, "6-8", "8-10")))
 
+boxplot(Cognitive_Score ~ Sleep_Bin, data = sleep_df,
+        main = "Cognitive Score by Sleep Duration",
+        xlab = "Sleep Duration (hours)",
+        ylab = "Cognitive Score",
+        col = "purple")
 ```
 ```{r}
 # 4. Sleep Hours vs Stress Level
-plot(sleep_df$Sleep_Hours, sleep_df$Stress_Level,
-     main = "Sleep Hours vs Stress Level",
-     xlab = "Sleep Hours",
-     ylab = "Stress Level",
-     col = "red", pch = 19)
+sleep_df$Stress_Bin <- ifelse(sleep_df$Stress_Level <= 2, "0-2",
+                        ifelse(sleep_df$Stress_Level > 2 & sleep_df$Stress_Level <= 4, "3-4",
+                          ifelse(sleep_df$Stress_Level > 4 & sleep_df$Stress_Level <= 6, "5-6",
+                           ifelse(sleep_df$Stress_Level > 6 & sleep_df$Stress_Level <= 8, "7-8",
+                              "9-10"))))
+
+boxplot(Cognitive_Score ~ Stress_Level, data = sleep_df,
+        main = "Cognitive Score by Stress Level",
+        xlab = "Stress Level",
+        ylab = "Cognitive Score",
+        col = "red")
 ```
 
-Here we are able to quickly visualize what numeric variables relate to each other and the strength of these relationships. As the correlation plot shows the variables with positively correlated relationships are those in blue, the darker the blue color of the circles the stronger that positive relationship is. And for the red colored circles is a negative correlated for example in our data set it is apparent that the less sleep you get the less the N_Back_Accuracy score is(memory capabilities/attention). 
-```{r}
+These boxplot graphs work as a more effective way to visually examine the relationships of these explanatory variables and our response variable, Cognitive Score. This is a more effective method as our data set contains 80,000 observations. When plotting all of these observations into a line plot there is too much clutter and cant give us too much information about the effects the explanatory variables have on our response variable. Box plots also allow us to summarize the distribution of Cognitive Score within categories or bins of the explanatory variables, showing quartiles, medians and potential outliers. 
 
-#Visualize correlation between the numeric variables in our data set
-
-install.packages("corrplot") 
-library(corrplot)
-numeric_var <- c( "Sleep_Hours", "Stroop_Task_Reaction_Time", "N_Back_Accuracy", "PVT_Reaction_Time" , "BMI", "Sleep_Quality_Score", "Stress_Level" )
-cor_mat <- cor(sleep_df[, numeric_var])
-corrplot(cor_mat)
-
-
-
-
-```
