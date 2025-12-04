@@ -144,7 +144,7 @@ full_mod <- lm(N_Back_Accuracy ~ Sleep_Hours + Sleep_Quality_Score + Daytime_Sle
 
 
 ```
-The residuals appear fairly centered around zero with no major patterns, suggesting approximate linearity and homoscedasticity.The Q–Q plot shows mild deviations from normality but is generally acceptable for regression inference. VIF values below 5 indicate low multicollinearity. This suggests that although variables like Stress, Screen Time, and Reaction Time are related, they are not redundant.
+The residuals appear fairly centered around zero with no major patterns, suggesting approximate linearity and there are approximate equal variances of the residuals across all levels of predictor variables.The Q–Q plot shows mild deviations from normality but is generally acceptable for regression inference. VIF values below 5 indicate low multicollinearity. This suggests that although variables like Stress, Screen Time, and Reaction Time are related, they are not redundant.
 The model is stable and the coefficients can be interpreted confidently.
 These partial regression plots show the unique contribution of each predictor while controlling for all others. The linearity appears appropriate for most variables.
 The correlation heatmap shows strong negative association between Reaction Time and Cognitive Score, as well as positive correlation between Sleep Duration and Cognitive Score.
