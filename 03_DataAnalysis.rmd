@@ -88,13 +88,56 @@ mtext("Comparison of Proposed Models vs Least Squares Model",
 
 
 
+```
+```{r}
+
+sleep_df <- read.csv("sleep_deprivation_dataset_detailed.csv")
+required_vars <- c("Cognitive_Score", "Sleep_Duration", "Stress_Level",
+                   "Daily_Screen_Time", "Caffeine_Intake", 
+                   "Reaction_Time", "Exercise_Frequency")
+
+required_vars %in% names(sleep_df)
+
+
+#model diagnostics - QQ & residual plots
+par(mfrow=c(1,2))
+
+
+#multicolinearity check
+library(car)
+
+
+full_mod <- lm(
+  N_Back_Accuracy ~ Sleep_Hours + Stress_Level + Caffeine_Intake + 
+    Physical_Activity_Level + PVT_Reaction_Time + Age + BMI + Gender,
+  data = sleep_df
+)
+
+summary(full_mod)
+vif(full_mod)
 
 
 
+#comparing simple vs full model
+anova(ls_mod, full_mod)
+
+
+#partial regression plots
+crPlots(full_mod)
+
+#prediction of new data
+predict(full_mod, newdata = new_person)
+
+#correlation heatmap
+corrplot(cor(numeric_vars))
+
+#model performance metrics
+preds <- predict(full_mod)
+
+full_mod <- lm(...)
 
 
 ```
-
 
 
 
@@ -133,6 +176,8 @@ After fitting the full model with all six predictors, the summary gives us a pic
     Other daily habits also contribute. More time spent on screens predicts lower scores, dropping by about 1.45 points for each hour. Caffeine Intake also has a very small but negative association, where increasing caffeine slightly lowers predicted performance. Reaction Time has a larger negative impact: slower reaction times correspond to noticeably lower cognitive scores, which makes sense because reaction time is itself tied to attention and cognitive processing.
   
   The exercise frequency categories also show meaningful differences. Compared to the reference group (likely “High” exercise), people who exercise “Low” score about 14 points lower, and those in the “Medium” group score about 5 points lower. This suggests that physical activity plays a noticeable role in cognitive outcomes for this dataset.
+  
+
   
   What stands out most is that every single predictor is statistically significant, with extremely small p-values. That means each variable contributes in a way that is unlikely to be due to just chance. Together, these predictors explain a very large portion of the variation in cognitive scores: the R-squared is about 0.863, meaning roughly 86% of the differences in cognitive performance can be accounted for by the combination of sleep, stress, screen time, caffeine, reaction speed, and exercise frequency. This is a big improvement over the simple model, where sleep alone explained only about 6%.
   
