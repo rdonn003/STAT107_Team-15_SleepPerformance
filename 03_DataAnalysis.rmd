@@ -11,6 +11,10 @@ output:
 ---
 This code allows us to compare multiple proposed linear models that predict our response variable Cognitive Score from sleep Duration. Each individual plot shows the data points, the proposed line, and fitted lines representing the residuals. The least squares regression line is represented by the green fitted line. This visualization minimizes the sum of squared errors and provides the best fit line to our dataset. 
 ```{r}
+load("sleep_df.RData")
+```
+
+```{r}
 
 
 set.seed(123)
@@ -165,12 +169,10 @@ After running the code above we are able to get a summary of the information on 
 
 
 ```{r}
-
 full_mod <- lm(Cognitive_Score ~ Sleep_Duration + Stress_Level + Daily_Screen_Time + 
                  Caffeine_Intake + Reaction_Time + Exercise_Frequency, data = sleep_df)
 
 summary(full_mod)
-
 ```
 
 After fitting the full model with all six predictors, the summary gives us a picture of how these variables together help explain differences in Cognitive Score. Looking at the residuals first, they’re centered very close to zero with a fairly symmetric spread, which suggests that once all predictors are included, the model is not systematically over- or under-estimating cognitive scores across the data set.

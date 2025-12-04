@@ -11,7 +11,7 @@ output:
 ---
 
 ```{r load-data}
-sleep_data <- read.csv("sleep_deprivation_dataset_detailed.csv")
+sleep_data <- read.csv("human_cognitive_performance.csv")
 head(sleep_data)
 ```
 
