@@ -92,9 +92,7 @@ mtext("Comparison of Proposed Models vs Least Squares Model",
 ```{r}
 
 sleep_df <- read.csv("sleep_deprivation_dataset_detailed.csv")
-required_vars <- c("Cognitive_Score", "Sleep_Duration", "Stress_Level",
-                   "Daily_Screen_Time", "Caffeine_Intake", 
-                   "Reaction_Time", "Exercise_Frequency")
+required_vars <- c("Cognitive_Score", "Sleep_Duration", "Stress_Level","Daily_Screen_Time", "Caffeine_Intake", "Reaction_Time", "Exercise_Frequency")
 
 required_vars %in% names(sleep_df)
 
@@ -107,11 +105,7 @@ par(mfrow=c(1,2))
 library(car)
 
 
-full_mod <- lm(
-  N_Back_Accuracy ~ Sleep_Hours + Stress_Level + Caffeine_Intake + 
-    Physical_Activity_Level + PVT_Reaction_Time + Age + BMI + Gender,
-  data = sleep_df
-)
+full_mod <- lm(N_Back_Accuracy ~ Sleep_Hours + Stress_Level + Caffeine_Intake + Physical_Activity_Level + PVT_Reaction_Time + Age + BMI + Gender,data = sleep_df)
 
 summary(full_mod)
 vif(full_mod)
@@ -142,12 +136,7 @@ cor(sleep_df[, numeric_vars])
 #model performance metrics
 preds <- predict(full_mod)
 
-full_mod <- lm(
-  N_Back_Accuracy ~ Sleep_Hours + Sleep_Quality_Score + Daytime_Sleepiness +
-    Stress_Level + Caffeine_Intake + PVT_Reaction_Time +
-    Physical_Activity_Level + Age + BMI + Gender,
-  data = sleep_df
-)
+full_mod <- lm(N_Back_Accuracy ~ Sleep_Hours + Sleep_Quality_Score + Daytime_Sleepiness + Stress_Level + Caffeine_Intake + PVT_Reaction_Time + Physical_Activity_Level + Age + BMI + Gender,data = sleep_df)
 
 
 ```
