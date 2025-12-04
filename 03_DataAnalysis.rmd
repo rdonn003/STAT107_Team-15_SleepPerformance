@@ -99,7 +99,7 @@ required_vars <- c("Cognitive_Score", "Sleep_Duration", "Stress_Level",
 required_vars %in% names(sleep_df)
 
 
-#model diagnostics - QQ & residual plots
+#model diagnostics - residual plots
 par(mfrow=c(1,2))
 
 
@@ -118,28 +118,43 @@ vif(full_mod)
 
 
 
-#comparing simple vs full model
-anova(ls_mod, full_mod)
-
-
 #partial regression plots
 crPlots(full_mod)
 
-#prediction of new data
+#prediction of new data using an arbitary example person
+new_person <- data.frame(
+  Sleep_Hours = 7,
+  Stress_Level = 3,
+  Caffeine_Intake = 150,
+  Physical_Activity_Level = 2,
+  PVT_Reaction_Time = 280,
+  Age = 25,
+  BMI = 22,
+  Gender = "Female"
+)
+
 predict(full_mod, newdata = new_person)
 
 #correlation heatmap
-corrplot(cor(numeric_vars))
+cor(sleep_df[, numeric_vars])
+
 
 #model performance metrics
 preds <- predict(full_mod)
 
-full_mod <- lm(...)
+full_mod <- lm(
+  N_Back_Accuracy ~ Sleep_Hours + Sleep_Quality_Score + Daytime_Sleepiness +
+    Stress_Level + Caffeine_Intake + PVT_Reaction_Time +
+    Physical_Activity_Level + Age + BMI + Gender,
+  data = sleep_df
+)
 
 
 ```
-
-
+The residuals appear fairly centered around zero with no major patterns, suggesting approximate linearity and homoscedasticity.The Q–Q plot shows mild deviations from normality but is generally acceptable for regression inference. VIF values below 5 indicate low multicollinearity. This suggests that although variables like Stress, Screen Time, and Reaction Time are related, they are not redundant.
+The model is stable and the coefficients can be interpreted confidently.
+These partial regression plots show the unique contribution of each predictor while controlling for all others. The linearity appears appropriate for most variables.
+The correlation heatmap shows strong negative association between Reaction Time and Cognitive Score, as well as positive correlation between Sleep Duration and Cognitive Score.
 
 
 ```{r}
