@@ -56,6 +56,8 @@ Apply the functions to the data set:
 ```{r}
 sleep_df <- to_factors(remove_na(sleep_data))
 head(sleep_df)
+
+sleep_df <- sleep_df[c("Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", "Cognitive_Score")]
 ```
 
 Remove outliers? 
