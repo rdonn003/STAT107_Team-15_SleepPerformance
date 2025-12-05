@@ -29,7 +29,7 @@ While the project includes hypothesis testing (for example, whether sleep signif
 library(corrplot)
 load("sleep_df.RData")
 ```
-The data set in use is "human_cognitive_performance.csv" pulled from Kaggle, which contains the observed attributes of individuals', aged 18 to 59, sleep and lifestyle, and their results in cognitive performance tests. The original data set contained 80,000 entries with 11 observational variables. 3 of the variables were measures of cognitive performance, while 8 were the aforementioned attributes observed of the individuals. As our interests pertains to students, we extracted only the results of individuals aged 18 to 25 (a reasonable age for undergraduate and masters students). Furthermore, we removed two of the variables which scored cognitive performance such that our data set fed directly into building the linear regression model. The resulting data frame presents 1 dependent variable in "Cognitive_Score" and 8 independent in  "Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", and "Reaction_Time".
+The data set in use is "human_cognitive_performance.csv" pulled from Kaggle, which contains the observed attributes of individuals', aged 18 to 59, sleep and lifestyle, and their results in cognitive performance tests. The original data set contained 80,000 entries with 12 observational variables. 3 of the variables were measures of cognitive performance, while 9 were the aforementioned attributes observed of the individuals. As our interests pertains to students, we extracted only the results of individuals aged 18 to 25 (a reasonable age for undergraduate and masters students). Furthermore, we removed two of the variables which scored cognitive performance such that our data set fed directly into building the linear regression model. The resulting data frame presents 1 dependent variable in "Cognitive_Score" and 9 independent in  "Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", and "Reaction_Time".
 
 # 3 Visualization
 
@@ -78,14 +78,14 @@ Shown in Figure 3 is the line of best fit as identified by the simple linear reg
 
 ## 4.2 Multiple Linear Regression Model
 
-As we seek to determine which variables are of statistical importance in predicting an individual's performance, we create a full model containing all 8 independent variables and use backwards selection, eliminating variables based on which model produces the lowest AIC score, to determine an optimal multiple linear regression model.
+As we seek to determine which variables are of statistical importance in predicting an individual's performance, we create a full model containing all 9 independent variables and use backwards selection, eliminating variables based on which model produces the lowest AIC score, to determine an optimal multiple linear regression model.
 
 ```{r, echo=FALSE}
-full_mod <- lm(Cognitive_Score ~ Age + Gender + Sleep_Duration + Stress_Level + Daily_Screen_Time + Exercise_Frequency + Caffeine_Intake + Reaction_Time, data = sleep_df)
+full_mod <- lm(Cognitive_Score ~ Age + Gender + Sleep_Duration + Diet_Type + Stress_Level + Daily_Screen_Time + Exercise_Frequency + Caffeine_Intake + Reaction_Time, data = sleep_df)
 backward_model <- step(full_mod, direction = "backward")
 summary(backward_model)
 ```
-After fitting the full model with six predictors, eliminating Age and Gender, the summary gives us a picture of how these variables together help explain differences in Cognitive Score. The adjusted R-squared value of the model is 0.8664, meaning that 86.64% of variance in cognitive score is able to be explained by the model. The model also has an F-statistic of 1.398e+04, corresponding to a p-value of 2.2e-16, conveying statistical significance in its predictive power.
+After fitting the full model with six predictors, eliminating Age, Gender, and Diet Type, the summary gives us a picture of how these variables together help explain differences in Cognitive Score. The adjusted R-squared value of the model is 0.8664, meaning that 86.64% of variance in cognitive score is able to be explained by the model. The model also has an F-statistic of 1.398e+04, corresponding to a p-value of 2.2e-16, conveying statistical significance in its predictive power.
 
 The model estimates a starting point (intercept) of about 142.7 for the predicted Cognitive Score when all predictors are zero. From there, each predictor shifts the cognitive score according to it's respective coefficient. Sleep Duration has a positive coefficient of about 1.92, meaning that each additional hour of sleep is associated with nearly 2 more points on the cognitive score, holding everything else constant. Stress Level goes the opposite way, decreasing cognitive score by about 1.93 points for each unit increase in stress.
     
@@ -109,4 +109,6 @@ Overall, the conditions for multiple linear regression are not satisfied, and a 
 
 # 5 Conclusion
 
-The significant predictive variables determined through multiple linear regression 
+The statistically significant predictive variables determined through multiple linear regression were "Sleep_Duration", "Stress_Level", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", and "Reaction_Time". Age , Gender, and Diet Type however, were not statistically significant in determining cognitive score. As those variables were those observed that are reasonably out of a student's control, this means that any college student could improve their cognitive performance by taking action through the predictive variables.
+
+Sleep duration and Exercise Frequency were two variables in which an increase resulted in a higher estimated cognitive score, while all other variables showed that a decrease would be beneficial, including (somewhat surprisingly) caffeine intake. Thus, some hypothetical student would be able to increase his or her cognitive performance by increasing sleep and exercise, and decreasing stress level, screen time, caffeine intake, and their reaction time.

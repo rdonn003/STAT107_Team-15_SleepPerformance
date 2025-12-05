@@ -162,7 +162,7 @@ After running the code above we are able to get a summary of the information on 
   From this we can denote that the variable sleep duration only explains about 6% of the variability in cognitive score. All in all this variable sleep duration contains a significant positive contribution on cognitive score however in our complete model including all other significant variables is not sufficient to fully predict cognitive score alone.
 ```{r}
 full_mod <- lm(Cognitive_Score ~ Age + Gender + Sleep_Duration + Stress_Level + Daily_Screen_Time + Exercise_Frequency + Caffeine_Intake + Reaction_Time, data = sleep_df)
-
+backward_model <- step(full_mod, direction = "backward")
 summary(backward_model)
 ```
 
@@ -188,10 +188,7 @@ After fitting the full model with all six predictors, the summary gives us a pic
   Overall, the full model paints a much more complete picture. Sleep still matters, but stress, screen use, exercise, and especially reaction time add important information that dramatically increases the accuracy of predicting cognitive scores.
 
 ```{r}
-
 plot(full_mod)
-
-
 ```
 
 
