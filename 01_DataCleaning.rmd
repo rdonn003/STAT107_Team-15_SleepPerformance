@@ -60,9 +60,9 @@ head(sleep_df)
 ```
 ```{r}
 sleep_df <- sleep_df[c("Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", "Reaction_Time", "Cognitive_Score")]
+sleep_df <- sleep_df[sleep_df$Age <= 25 & sleep_df$Age >= 18,]
 head(sleep_df)
 dim(sleep_df)
-sleep_df <- sleep_df[sleep_df$Age <= 25 && sleep_df$Age >= 18]
 ```
 
 Remove outliers? 
