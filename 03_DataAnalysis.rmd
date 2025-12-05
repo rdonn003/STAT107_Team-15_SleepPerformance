@@ -182,3 +182,35 @@ After fitting the full model with all six predictors, the summary gives us a pic
   What stands out most is that every single predictor is statistically significant, with extremely small p-values. That means each variable contributes in a way that is unlikely to be due to just chance. Together, these predictors explain a very large portion of the variation in cognitive scores: the R-squared is about 0.863, meaning roughly 86% of the differences in cognitive performance can be accounted for by the combination of sleep, stress, screen time, caffeine, reaction speed, and exercise frequency. This is a big improvement over the simple model, where sleep alone explained only about 6%.
   
   Overall, the full model paints a much more complete picture. Sleep still matters, but stress, screen use, exercise, and especially reaction time add important information that dramatically increases the accuracy of predicting cognitive scores.
+
+```{r}
+
+plot(full_mod)
+
+
+```
+
+
+
+After fitting the full model we want to be able to run a few test on this model and be able to determine if our data set contains proper linearity, spread of residuals, normality of residuals, influential points, and homoscedasticity. 
+
+
+The first plot residuals vs fitted values of the full model checks for linearity meaning that it determines whether the relationship between the predictor variables and the response variable follows a true linear relationship. What our data shows is that most observations fall between +15 and -15. This plot does allow us to observe the three major outliers that exist within our data set. What this allows us to determine about our dataset is that majority of our data points is linear however these three outliers are considered high leverage outliers that cause a distortion within the plots. 
+
+
+
+The second plot QQ plot of Residuals allows us to check for normality of the residuals. If the points do follow a normal residual distribution then these points are to form a relatively straight line. In our data we observed an s shaped plot with heavy tails on each end. This is because of the three extreme outliers that have a negative affect on this plot. For the rest of our data residuals do follow a relative normal distribution. 
+
+
+The third plot is Scale-Location Plot which plots Standardized Residuals versus Fitted. This plot is utilized to check for homoscedasticity or the constant variance of residual. Our data set shows that most points are centered at around 0.7 and almost all points falling plus or minus 0.7 of that center. Again we see one of the three reoccurring outlines showing up in this plot. This shows us that the variance is constant with the exclusion of that singular outlier. Here we are able to conclude that the constant variance of residuals is satisfied. 
+
+
+
+For the fourth and last plot this is the Residuals vs leverage plot. This plot allows us to determine whether our data set contains influential points that may cause a disproportional affect on the model. Again we see here that most observation have a minimal leverage except for the three major outliers that hold extreme leverage over the rest of our data point in the model. This allows us to see why are model might have some distortion within their coefficients that are affecting the full models normality and residuals. 
+
+
+
+Overall Conclusion
+The diagnostic plots indicate that the majority of the dataset satisfies the assumptions of linear regression. However, three extreme outliers have high leverage and large residuals, which distort some of the plots and could affect model estimates. Removing or carefully considering these outliers can improve the interpretability and reliability of the model.
+
+
