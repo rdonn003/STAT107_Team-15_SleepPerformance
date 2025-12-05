@@ -1,6 +1,6 @@
 ---
 title: 'Stat107 Final Project Data Cleaning'
-author: "Group 15"
+author: "Group 15"()
 date: "11-5-25"
 output:
   pdf_document: default
@@ -13,6 +13,7 @@ output:
 ```{r load-data}
 sleep_data <- read.csv("human_cognitive_performance.csv")
 head(sleep_data)
+dim(sleep_data)
 ```
 
 In order to ensure the data is ready for use in our analysis, we must first clean it such that each variable is formatted in a predicatble manner and there are not missing data values. To do this we define the below functions:
@@ -56,8 +57,12 @@ Apply the functions to the data set:
 ```{r}
 sleep_df <- to_factors(remove_na(sleep_data))
 head(sleep_df)
-
-sleep_df <- sleep_df[c("Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", "Cognitive_Score")]
+```
+```{r}
+sleep_df <- sleep_df[c("Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", "Reaction_Time", "Cognitive_Score")]
+head(sleep_df)
+dim(sleep_df)
+sleep_df <- sleep_df[sleep_df$Age <= 25 && sleep_df$Age >= 18]
 ```
 
 Remove outliers? 
