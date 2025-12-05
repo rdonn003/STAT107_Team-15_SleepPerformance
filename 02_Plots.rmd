@@ -59,3 +59,6 @@ boxplot(Cognitive_Score ~ Stress_Level, data = sleep_df,
 
 These boxplot graphs work as a more effective way to visually examine the relationships of these explanatory variables and our response variable, Cognitive Score. This is a more effective method as our data set contains 80,000 observations. When plotting all of these observations into a line plot there is too much clutter and cant give us too much information about the effects the explanatory variables have on our response variable. Box plots also allow us to summarize the distribution of Cognitive Score within categories or bins of the explanatory variables, showing quartiles, medians and potential outliers. 
 
+```{r}
+
+```

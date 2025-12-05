@@ -160,7 +160,11 @@ After running the code above we are able to get a summary of the information on 
   Now for the significance of this predictor we observe a value of 0.000413 which is less than 0.05. From this we are able to conclude that this sleep duration variable in our data set is a statistically significant predictor of the cognitive score. Although this is a statistically significant predictor the variance explained by this variable alone can be determined by the squared value, which here we end up with a value of 0.0612. 
   
   From this we can denote that the variable sleep duration only explains about 6% of the variability in cognitive score. All in all this variable sleep duration contains a significant positive contribution on cognitive score however in our complete model including all other significant variables is not sufficient to fully predict cognitive score alone.
+```{r}
+full_mod <- lm(Cognitive_Score ~ Age + Gender + Sleep_Duration + Stress_Level + Daily_Screen_Time + Exercise_Frequency + Caffeine_Intake + Reaction_Time, data = sleep_df)
 
+summary(backward_model)
+```
 
 ```{r}
 full_mod <- lm(Cognitive_Score ~ Sleep_Duration + Stress_Level + Daily_Screen_Time + 

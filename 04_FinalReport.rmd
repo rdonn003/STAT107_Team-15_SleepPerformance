@@ -1,5 +1,5 @@
 ---
-title: 'The Effects of Good Sleep on Cognitive Performance'
+title: 'The Effects of Sleep on Cognitive Performance'
 author: "Group 15"
 date: "11-5-25"
 output:
@@ -10,30 +10,103 @@ output:
     theme: cerulean
 ---
 
-#Effects of Sleep Deprivation on Cognitive Performance
 
-##Abstract
+## Abstract
+
+In this project we seek to analyze how sleep related behaviors and lifestyle factors have a profound effect on a subject's cognitive performance. More broadly, the analysis investigates whether cognitive performance can be reliably predicted using everyday habits such as sleep, stress, caffeine consumption, physical activity, and reaction-time measures. By comparing a simple model (sleep duration only) to a full multivariable model, we determined both the unique contribution of sleep and the relative importance of other factors. Our primary question was whether the surrounding attributes of a person's sleep (hours slept, caffeine intake, etc.) have a direct effect on a persons ability to perform throughout the day? In a simple linear regression model, our predictive power was rather weak. Developing a full model through multiple regression using backwards selection, we obtained an adjusted R-squared value of 0.8664. Our data analysis yielded that Age and Gender were the least statistically significant influences (which is good to hear as they are not very easy to control), and displayed that we can reasonably control our cognitive performance with our sleep and lifestyle choices.
 
 
-In this project we seek to analyze how sleep related behaviors and lifestyle factors have a profound effect on a subject's cognitive performance.Using a dataset containing measures of sleep duration, sleep quality, daytime sleepiness, stress, physical activity, caffeine intake, reaction-time tasks, and accuracy-based cognitive assessments, our primary question was:Do the surrounding attributes of a person's sleep, such as hours slept and caffeine intake, have a direct effect on a persons ability to perform throughout the day? And do certain attributes affect their performance more than others? We evaluated a simple linear model first relating cognitive performance from sleep duration alone. The variance of ___ in cognitive performance suggested that sleep duration alone is not a good predictor. We then developed a full model of multiple regression that incorporates ______. 86.67% of the variance in cognitive score can be explained the the full linear regression model, which allows us to more accurately predict cognitive score. Our data analysis showed that reaction time, stresss levels and physical activity are the strongest predictors, while sleep duration had a semi-modest effect. These questions are of considerable importance to us as college students who want to be capable throughout the day. To answer them, we conduct statistical analysis in the form of linear regression to find the impact of each key variable in determining cognitive performance. If applied, this analysis is useful for students who wish to optimize their academic lifestyle with their sleep. Our analysis shows that attributes of one's sleep do not have a direct effect on cognitive performance.
+# 1 Introduction
 
-##Introduction
-The purpose of this analysis is to understand how sleep-related habits and lifestyle factors influence cognitive performance. Specifically, we aim to answer the question: To what extent does sleep duration predict cognitive accuracy, and how much it can be explained when other behavioral and physiological variables are included.
-
-More broadly, the analysis investigates whether cognitive performance can be reliably modeled using everyday habits such as sleep, stress, caffeine consumption, physical activity, and reaction-time measures. By comparing a simple model (sleep duration only) to a full multivariable model, we can determine both the unique contribution of sleep and the relative importance of other factors.
+Every student follows a daily routine, employing a unique strategy to prepare for mental engagement in school. However, not all of these strategies are equal and performance varies among individuals in both grades and in-class comprehension. Thus, in pursuit of sturdy academic conduct, it is vital to understand how sleep-related habits and lifestyle factors influence their activity. Specifically, in what way do the attributes of one's sleep, along with behavioral and physiological variables, predict cognitive performance?
 
 This analysis may benefit researchers, students, and health professionals interested in understanding how daily behaviors interact to affect cognitive functioning. It also provides insight for individuals seeking to optimize academic or work performance, as the results clarify which aspects of lifestyle matter most.
-
 While the project includes hypothesis testing (for example, whether sleep significantly predicts cognitive score), the broader goal is predictive modeling and identifying which variables best explain cognitive performance. This helps determine whether a linear model can reliably estimate cognitive ability from behavioral data and highlights which factors have the strongest practical impact.
 
 
+# 2 Data
+```{r, echo=FALSE, include=FALSE}
+library(corrplot)
+load("sleep_df.RData")
+```
+The data set in use is "human_cognitive_performance.csv" pulled from Kaggle, which contains the observed attributes of individuals', aged 18 to 59, sleep and lifestyle, and their results in cognitive performance tests. The original data set contained 80,000 entries with 11 observational variables. 3 of the variables were measures of cognitive performance, while 8 were the aforementioned attributes observed of the individuals. As our interests pertains to students, we extracted only the results of individuals aged 18 to 25 (a reasonable age for undergraduate and masters students). Furthermore, we removed two of the variables which scored cognitive performance such that our data set fed directly into building the linear regression model. The resulting data frame presents 1 dependent variable in "Cognitive_Score" and 8 independent in  "Age", "Gender", "Sleep_Duration", "Stress_Level", "Diet_Type", "Daily_Screen_Time", "Exercise_Frequency", "Caffeine_Intake", and "Reaction_Time".
 
+# 3 Visualization
 
-In order to answer our questions, we intend to select certain features based on highest coorelation score, intuitive choice, and possibly other methods, and train a regression model to predict the performance of a subject based on the attributes of their sleep. Furthermore, we will attempt to identify coorelations between sleep and awake performance through visualizations. As our data is observational, we cannot perform an experiment, thus we hope to identify strong coorelations in our data.
+```{r, echo=FALSE, fig.cap="Figure 0: Sleep Duration plotted against Cognitive Score", fig.align='center', fig.height=5, fig.width=6}
+plot(sleep_df$Sleep_Duration, sleep_df$Cognitive_Score, main = "Sleep Duration vs Cognitive Score", xlab = "Sleep Duration (hours)", ylab = "Cognitive Score", pch = 1, col = "blue")
+```
 
-The data set in use is "human_cognitive_performance.csv" pulled from Kaggle. There are around 80,000 entries with 12 observational variables describing an individual, their sleep, and their awake performance following said sleep. To clean t
-##########
+Figure 0 is a plot of solely the hours of sleep an individual got versus their received cognitive score. From the density of the points, a weak positive linear relationship can be made out. 
 
-MOVE ANALYSIS HERE WHEN READY
+\newpage
 
-##########
+```{r, fig.cap="Figure 1: Heatmap of pairwise correlations between key variables.", echo=FALSE, fig.align='center', fig.height=5, fig.width=5}
+cor_mat <- cor(sleep_df[, c("Age", "Sleep_Duration", "Stress_Level", "Daily_Screen_Time", "Caffeine_Intake", "Reaction_Time")], use = "complete.obs")
+corrplot(cor_mat,  method = "color", type = "upper", tl.col = "black", tl.srt = 45)
+```
+
+Figure 1 shows the correlation plot of the numeric variables we intend to use to predict Cognitive Score. As indicated by the lack of color, there is no significant coorelation between any of the numeric independent variables. This is a sign that there is not any collinearity within our predictive variables which will allow for better model performance and independence in said variables.
+\pagebreak
+```{r, fig.cap="Figure 2: Boxplots showing cognitive scores by age.", echo=FALSE, fig.align='center', fig.height=4, fig.width=6}
+boxplot(Cognitive_Score ~ Age, data = sleep_df, main = "Distribution of Cognitive Scores by Age", xlab = "Age", ylab = "Cognitive Score", col = "lightblue", border = "black")
+```
+
+Figure 2 displays the box plot distribution of measured cognitive scores of each age. These boxplot graphs are an effective way to visually examine the spread of Cognitive Score among each age. we can see that each distribution appears normal, with roughly the same mean, so it is unlikely that Age will be much of an influential factor in determining Cognitive Performance.  
+
+# 4 Analysis
+
+## 4.1 Simple Linear Regression Model
+As a baseline, we attempt simple linear regression to predict cognitive score based on only sleep duration.
+
+```{r, echo=FALSE}
+ls_mod <- lm(Cognitive_Score ~ Sleep_Duration, data = sleep_df)
+summary(ls_mod)
+```
+The resulting equation:
+  
+$$\widehat{\text{Cognitive Score}} = 44.1648 + 2.0068 \cdot \text{Sleep Duration}$$
+  
+From this we gain insight with the y intercept being equal to 44.1648; the predicted Cognitive Score when the individual got no sleep. The slope is 2.0068 which we can interpret as fan increase of about 2 points in predicted Cognitive Score for every additional hour of sleep. Now for the significance of this predictor we observe a value of <2e-16, less than 0.05. From this we are able to conclude that this sleep duration variable in our data set is a statistically significant predictor of the cognitive score. Although this is a statistically significant predictor the variance explained by this variable is shown through the adjusted R-squared value: 0.02257. From this, sleep duration only explains about 2.3% of the variability in cognitive score. Thus, although a significant predictor of cognitive score, it is not sufficient to fully predict cognitive score alone.
+
+```{r, echo=FALSE, fig.cap="Figure 3: Simple Linear Regression Model on Sleep Duration plotted against Cognitive Score", fig.align='center', fig.height=5, fig.width=6}
+plot(sleep_df$Sleep_Duration, sleep_df$Cognitive_Score, main = "Sleep Duration vs Cognitive Score", xlab = "Sleep Duration (hours)", ylab = "Cognitive Score", pch = 1, col = "blue")
+abline(ls_mod, col = "red", lwd = 2)
+```
+
+Shown in Figure 3 is the line of best fit as identified by the simple linear regression model. Clearly there are massive residuals on this line.
+
+## 4.2 Multiple Linear Regression Model
+
+As we seek to determine which variables are of statistical importance in predicting an individual's performance, we create a full model containing all 8 independent variables and use backwards selection, eliminating variables based on which model produces the lowest AIC score, to determine an optimal multiple linear regression model.
+
+```{r, echo=FALSE}
+full_mod <- lm(Cognitive_Score ~ Age + Gender + Sleep_Duration + Stress_Level + Daily_Screen_Time + Exercise_Frequency + Caffeine_Intake + Reaction_Time, data = sleep_df)
+backward_model <- step(full_mod, direction = "backward")
+summary(backward_model)
+```
+After fitting the full model with six predictors, eliminating Age and Gender, the summary gives us a picture of how these variables together help explain differences in Cognitive Score. The adjusted R-squared value of the model is 0.8664, meaning that 86.64% of variance in cognitive score is able to be explained by the model. The model also has an F-statistic of 1.398e+04, corresponding to a p-value of 2.2e-16, conveying statistical significance in its predictive power.
+
+The model estimates a starting point (intercept) of about 142.7 for the predicted Cognitive Score when all predictors are zero. From there, each predictor shifts the cognitive score according to it's respective coefficient. Sleep Duration has a positive coefficient of about 1.92, meaning that each additional hour of sleep is associated with nearly 2 more points on the cognitive score, holding everything else constant. Stress Level goes the opposite way, decreasing cognitive score by about 1.93 points for each unit increase in stress.
+    
+Other daily habits also contribute. More time spent on screens predicts lower scores, dropping by about 1.45 points for each hour. Caffeine Intake also has a very small but negative association, where increasing caffeine slightly lowers predicted performance. Reaction Time has a larger negative impact: slower reaction times correspond to noticeably lower cognitive scores, which makes sense because reaction time is itself tied to attention and cognitive processing. The exercise frequency categories also show meaningful differences. Compared to the reference group (likely “High” exercise), people who exercise “Low” score about 14 points lower, and those in the “Medium” group score about 5 points lower. This suggests that physical activity plays a noticeable role in cognitive outcomes for this data set.
+
+After fitting the full model we want to be able to run a few test on this model and be able to determine if our data set contains proper linearity, spread of residuals, normality of residuals, influential points, and homoscedasticity. 
+
+```{r, echo=FALSE, fig.cap="Figure 4: Residual diagnostics for the multiple linear regression model predicting Cognitive Score", fig.height=6, fig.width=6, fig.align='center'}
+par(mfrow = c(2, 2))
+plot(full_mod)
+```
+The first plot residuals vs fitted values of the full model checks for linearity meaning that it determines whether the relationship between the predictor variables and the response variable follows a true linear relationship. What our data shows is that most observations fall between +15 and -15. This plot does allow us to observe a certain flaw: Instead of a random cloud of points, there is a clear pattern of diagonal lines being shown in the residuals. This is likely due to our response variable not being entirely continuous. 
+
+The second plot, Q-Q plot of Residuals, allows us to check for normality of the residuals. If the points do follow a normal residual distribution then these points are to form a relatively straight line. In our data we observed an s shaped plot with heavy tails on each end. This is due to the nature of the test scores, in that they are bound to the interval of [0, 100]. 
+
+The third plot is Scale-Location Plot which plots Standardized Residuals versus Fitted. This plot is utilized to check for homoscedasticity or the constant variance of residual. Our data set shows that most points are centered at around 0.7 and almost all points falling plus or minus 0.7 of that center. Again we see one of the three reoccurring outlines showing up in this plot. This shows us that the variance is constant with the exclusion of a few outliers in the top right. Here we are able to conclude that the constant variance of residuals is satisfied. 
+
+The Residuals vs leverage plot allows us to determine whether our data set contains influential points that may cause a disproportional affect on the model. We see here that most observation have a minimal leverage except for the three major outliers that hold extreme leverage over the rest of our data point in the model. This allows us to see why are model might have some distortion within their coefficients that are affecting the full models normality and residuals.
+
+Overall, the conditions for multiple linear regression are not satisfied, and a linear model is not appropriate for this data.
+
+# 5 Conclusion
+
+The significant predictive variables determined through multiple linear regression 
