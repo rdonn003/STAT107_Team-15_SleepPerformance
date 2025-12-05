@@ -10,7 +10,24 @@ output:
     theme: cerulean
 ---
 
-In this project we seek to analyze the effects of good sleep on a subject's cognitive performance. Do the surrounding attributes of a person's sleep, such as hours slept and caffeine intake, have a direct effect on a persons ability to perform throughout the day? And do certain attributes affect their performance more than others? These questions are of considerable importance to us as college students who want to be capable throughout the day. To answer them, we conduct statistical analysis in the form of linear regression to find the impact of each key variable in determining cognitive performance. If applied, this analysis is useful for students who wish to optimize their academic lifestyle with their sleep.
+#Effects of Sleep Deprivation on Cognitive Performance
+
+##Abstract
+
+
+In this project we seek to analyze how sleep related behaviors and lifestyle factors have a profound effect on a subject's cognitive performance.Using a dataset containing measures of sleep duration, sleep quality, daytime sleepiness, stress, physical activity, caffeine intake, reaction-time tasks, and accuracy-based cognitive assessments, our primary question was:Do the surrounding attributes of a person's sleep, such as hours slept and caffeine intake, have a direct effect on a persons ability to perform throughout the day? And do certain attributes affect their performance more than others? We evaluated a simple linear model first relating cognitive performance from sleep duration alone. The variance of ___ in cognitive performance suggested that sleep duration alone is not a good predictor. We then developed a full model of multiple regression that incorporates ______. 86.67% of the variance in cognitive score can be explained the the full linear regression model, which allows us to more accurately predict cognitive score. Our data analysis showed that reaction time, stresss levels and physical activity are the strongest predictors, while sleep duration had a semi-modest effect. These questions are of considerable importance to us as college students who want to be capable throughout the day. To answer them, we conduct statistical analysis in the form of linear regression to find the impact of each key variable in determining cognitive performance. If applied, this analysis is useful for students who wish to optimize their academic lifestyle with their sleep. Our analysis shows that attributes of one's sleep do not have a direct effect on cognitive performance.
+
+##Introduction
+The purpose of this analysis is to understand how sleep-related habits and lifestyle factors influence cognitive performance. Specifically, we aim to answer the question: To what extent does sleep duration predict cognitive accuracy, and how much it can be explained when other behavioral and physiological variables are included.
+
+More broadly, the analysis investigates whether cognitive performance can be reliably modeled using everyday habits such as sleep, stress, caffeine consumption, physical activity, and reaction-time measures. By comparing a simple model (sleep duration only) to a full multivariable model, we can determine both the unique contribution of sleep and the relative importance of other factors.
+
+This analysis may benefit researchers, students, and health professionals interested in understanding how daily behaviors interact to affect cognitive functioning. It also provides insight for individuals seeking to optimize academic or work performance, as the results clarify which aspects of lifestyle matter most.
+
+While the project includes hypothesis testing (for example, whether sleep significantly predicts cognitive score), the broader goal is predictive modeling and identifying which variables best explain cognitive performance. This helps determine whether a linear model can reliably estimate cognitive ability from behavioral data and highlights which factors have the strongest practical impact.
+
+
+
 
 In order to answer our questions, we intend to select certain features based on highest coorelation score, intuitive choice, and possibly other methods, and train a regression model to predict the performance of a subject based on the attributes of their sleep. Furthermore, we will attempt to identify coorelations between sleep and awake performance through visualizations. As our data is observational, we cannot perform an experiment, thus we hope to identify strong coorelations in our data.
 
