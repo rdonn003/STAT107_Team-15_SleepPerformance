@@ -1,7 +1,9 @@
 ---
 title: 'The Effects of Sleep on Cognitive Performance'
+subtitle: "https://github.com/STAT107_Team-15_SleepPerformance"
 author: "Group 15"
 date: "11-5-25"
+
 output:
   pdf_document: default
   html_document:
@@ -9,7 +11,6 @@ output:
     highlight: pygments
     theme: cerulean
 ---
-
 
 ## Abstract
 
